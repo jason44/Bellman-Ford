@@ -55,7 +55,7 @@ def relax():
 # then a negative cycle exist in the graph, ie: a cycle whose edges sum to a negative value 
 # the cycle cannot be a positive cycle, because positive cycles do not update the smallest path.
 # If there exist a negative cycle in the path to the target, then there is no smallest path as you could just loop around the cycle infinitely
-# The routine find_negative_cycle() outputs the negative cycles in any path starting from source
+# The routine find_negative_cycle() outputs the negative cycles in any path that starts from source
 def find_negative_cycle():
     visited = [False for _ in range(vertex_count)]
     for edge in edges:
@@ -94,11 +94,11 @@ relax()
 visualize()
 find_negative_cycle()
 
-# print smallest path
+# Print Smallest Path from Source to Target
 # In this example, the negative cycle is not in the path from 3 to 5. 
 # If it was, then our print algorithm above would likely be unable to print 
-# unless the cycle contains only target and nothing no other vertex in the path, 
-# or if the cycle  contains target and other vertices, but the path is |V|-1 edges long
+# unless the cycle contains only target and no other vertex in the path, 
+# or if the cycle contains target and other vertices in the path, but the path is |V|-1 edges long
 print(previous_node)
 current = target
 path = []
