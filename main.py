@@ -63,8 +63,9 @@ def find_negative_cycle():
         v = edge[1]
         w = weights[edge]
         if distance[u] + w < distance[v]:    
-            # There is a cycle in a path, however (u,v) is not necessarily in this cycle. 
-            # Every vertex within and after the cycle has the property that distance[u]+w < distance[v] is always true
+            # There is a cycle in a path, however (u,v) is not necessarily in this cycle. By definition, 
+            # Every vertex within and after a negative cycle is always decreasing, 
+            # ie: distance[u] + w < distance[v] for all (u, v) in and after the cycle.
             previous_node[v] = u
             visited[v] = True
             # Search for a vertex in the path that is guranteed to be in the cycle
