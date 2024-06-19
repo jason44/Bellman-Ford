@@ -54,8 +54,8 @@ def relax():
 # However, if the path updates eve after the |V|-1 iterations of the relax routine, 
 # then a negative cycle exist in the graph, ie: a cycle whose edges sum to a negative value 
 # the cycle cannot be a positive cycle, because positive cycles do not update the smallest path.
-# If there exist a negative cycle in the path to the target, then there is no smallest path as you could just loop around the cycle infinitely
-# The routine find_negative_cycle() outputs the negative cycles in any path that starts from source
+# If there exist a negative cycle in the path to the target, then there is no smallest path as you could just loop around the cycle indefinetly
+# The routine find_negative_cycle() outputs the negative cycles from any path that starts from source.
 def find_negative_cycle():
     visited = [False for _ in range(vertex_count)]
     for edge in edges:
@@ -63,14 +63,15 @@ def find_negative_cycle():
         v = edge[1]
         w = weights[edge]
         if distance[u] + w < distance[v]:    
-            # there is a cycle in a path, however (u,v) is not necessarily in this cycle
+            # There is a cycle in a path, however (u,v) is not necessarily in this cycle. 
+            # Every vertex within and after the cycle has the property that distance[u]+w < distance[v] is always true
             previous_node[v] = u
             visited[v] = True
-            # so, search for a vertex in the path that is guranteed to be in the cycle
+            # Search for a vertex in the path that is guranteed to be in the cycle
             while not visited[u]:
                 visited[u] = True
                 u = previous_node[u]
-            # then, form the cycle itself
+            # Form the cycle itself and print
             ncycle = [u]
             v = previous_node[u]
             while v != u:
