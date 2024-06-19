@@ -33,7 +33,7 @@ distance[source] = 0
 # Because of how we initalized distance, this edge will always be part of a path from source to v. 
 #
 # THEOREM 1: If there exist a noncyclic path between two vertices, then it has at most |V|-1 edges 
-# THEOREM 2: If there exist a path between two vertices, and one of the vertices along the path is in a cycle, then 
+# THEOREM 2: If there exist a path between two vertices, and there is a cycle along the path, then 
 #            the shorter of the two paths is the path NOT along the cycle.
 #
 # Hence, if we relax all edges |V|-1 times we are guranteed that a noncyclic path has been found for all nodes.
