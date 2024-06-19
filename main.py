@@ -36,7 +36,7 @@ distance[source] = 0
 # THEOREM 2: If there exist a path between two vertices, and there is a cycle along the path, then 
 #            the shorter of the two paths is the path NOT along the cycle.
 #
-# Hence, if we relax all edges |V|-1 times we are guranteed that a noncyclic path has been found for all nodes.
+# Hence, if we relax all edges |V|-1 times we are guaranteed that a noncyclic path has been found for all nodes.
 # If no edges are relaxed, then we've already found all shortest paths from source and we can break early (and there are no negative cycles).
 def relax():
     for _ in range(9):
@@ -52,9 +52,9 @@ def relax():
         if edges_relaxed == 0: break
     
 # However, if the path updates eve after the |V|-1 iterations of the relax routine, 
-# then a negative cycle exist in the graph, ie: a cycle whose edges sum to a negative value 
-# the cycle cannot be a positive cycle, because positive cycles do not update the smallest path.
-# If there exist a negative cycle in the path to the target, then there is no smallest path as you could just loop around the cycle indefinetly
+# then a negative cycle exist in the path, ie: a cycle whose edges sum to a negative value 
+# this cycle is obviously not a positive cycle, because positive cycles do not update the smallest path.
+# If there exist a negative cycle in the path to a target, then there is no smallest path as one could just loop around the cycle indefinetly
 # The routine find_negative_cycle() outputs the negative cycles from any path that starts from source.
 def find_negative_cycle():
     visited = [False for _ in range(vertex_count)]
@@ -63,12 +63,12 @@ def find_negative_cycle():
         v = edge[1]
         w = weights[edge]
         if distance[u] + w < distance[v]:    
-            # There is a cycle in a path, however (u,v) is not necessarily in this cycle. By definition, 
-            # Every vertex within and after a negative cycle is always decreasing, 
+            # There is a cycle in a path, however (u,v) is not necessarily in this cycle. 
+            # By definition, every vertex within and after a negative cycle is always decreasing, 
             # ie: distance[u] + w < distance[v] for all (u, v) in and after the cycle.
-            previous_node[v] = u
+            previous_node[v] = u # necessary for the case when the negative cycle is a |V|-cycle
             visited[v] = True
-            # Search for a vertex in the path that is guranteed to be in the cycle
+            # Search for a vertex in the path that is in the cycle
             while not visited[u]:
                 visited[u] = True
                 u = previous_node[u]
@@ -97,10 +97,7 @@ visualize()
 find_negative_cycle()
 
 # Print Smallest Path from Source to Target
-# In this example, the negative cycle is not in the path from 3 to 5. 
-# If it was, then our print algorithm above would likely be unable to print 
-# unless the cycle contains only target and no other vertex in the path, 
-# or if the cycle contains target and other vertices in the path, but the path is |V|-1 edges long
+# broken if there is a negative cycle in the path
 print(previous_node)
 current = target
 path = []
