@@ -20,24 +20,24 @@ edges = list(set(filter(lambda tup: tup[0] != tup[1], [(u, v) for u, v in zip(v1
 ws = torch.randint(-vertex_count, vertex_count, (len(edges),), generator=g2).tolist()
 weights = {k : v for k, v in zip(edges, ws)}
 
-source = 3
+start = 3
 target = 5
 previous_node = [-1 for _ in range(vertex_count)]
 distance = [9999999999 for _ in range(vertex_count)]
-distance[source] = 0
+distance[start] = 0
 
-# Since all distances are initialized towards infty except for source, the first iteration relaxes the edges adjacent to source.
-# Then the next iteration relaxes the edges of the neighborhood of source and so on until we've traversed all connected nodes. 
+# Since all distances are initialized towards infty except for start, the first iteration relaxes the edges adjacent to start.
+# Then the next iteration relaxes the edges of the neighborhood of start and so on until we've traversed all connected nodes. 
 #
 # When we relax some edge to v, say (u, v), we choose the smallest path that goes from x to v for any x adjacent to v,  
-# Because of how we initalized distance, this edge will always be part of a path from source to v. 
+# Because of how we initalized distance, this edge will always be part of a path from start to v. 
 #
 # THEOREM 1: If there exist a noncyclic path between two vertices, then it has at most |V|-1 edges 
 # THEOREM 2: If there exist a path between two vertices, and there is a cycle along the path, then 
 #            the shorter of the two paths is the path NOT along the cycle.
 #
 # Hence, if we relax all edges |V|-1 times we are guaranteed that a noncyclic path has been found for all nodes.
-# If no edges are relaxed, then we've already found all shortest paths from source and we can break early (and there are no negative cycles).
+# If no edges are relaxed, then we've already found all shortest paths from start and we can break early (and there are no negative cycles).
 def relax():
     for _ in range(9):
         edges_relaxed = 0
@@ -55,7 +55,7 @@ def relax():
 # then a negative cycle exist in the path, ie: a cycle whose edges sum to a negative value 
 # this cycle is obviously not a positive cycle, because positive cycles do not update the smallest path.
 # If there exist a negative cycle in the path to a target, then there is no smallest path as one could just loop around the cycle indefinetly
-# The routine find_negative_cycle() outputs the negative cycles from any path that starts from source.
+# The routine find_negative_cycle() outputs the negative cycles from any path that starts from start.
 def find_negative_cycle():
     visited = [False for _ in range(vertex_count)]
     for edge in edges:
@@ -96,7 +96,7 @@ relax()
 visualize()
 find_negative_cycle()
 
-# Print Smallest Path from Source to Target
+# Print Smallest Path from start to Target
 # broken if there is a negative cycle in the path
 print(previous_node)
 current = target
@@ -104,7 +104,7 @@ path = []
 while True:
     path.append(current)
     current = previous_node[current]
-    if current == source:
+    if current == start:
         path.append(current)
         break
 for v in path[:-1]:
